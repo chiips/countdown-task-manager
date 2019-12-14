@@ -11,9 +11,10 @@ const App = () => (
   <div>
     <header>
       <Link to="/">Home</Link>
-      <Link to="/about">About</Link>
       <Link to="/add">Add Task</Link>
+      <Link to="/about">About</Link>
     </header>
+    
     <main>
     <Switch>
       <Route exact path="/" component={Home} />

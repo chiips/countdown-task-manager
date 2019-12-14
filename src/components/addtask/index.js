@@ -1,9 +1,9 @@
 import React from 'react'
+import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
   add,
-  addAsync,
   // remove,
   // removeAsync
 } from '../../modules/manager'
@@ -24,22 +24,16 @@ const AddTask = props => (
           return
         }
         props.add(title.value, description.value)
+        .then(()=>props.toHome())
         title.value = ""
         description.value = ""
       }}>
         <input ref={node => title = node} placeholder="Title"/>
-        <input ref={node => description = node} placeholder="Description"/>
-        <button type="submit">
+        <textarea ref={node => description = node} placeholder="Description"></textarea>
+        <button type="submit" disabled={props.isAdding}>
           Add Task
         </button>
       </form>
-
-    <p>
-      <button onClick={props.addAsync} disabled={props.isAdding}>
-        Add Async
-      </button>
-    </p>
-
     
 
   </div>
@@ -54,7 +48,7 @@ const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
       add,
-      addAsync,
+      toHome: () => push(`/`)
     },
     dispatch
   )

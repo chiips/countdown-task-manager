@@ -13,7 +13,6 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-  // let count = state.count
   switch (action.type) {
     case ADD_REQUESTED:
       return {
@@ -44,10 +43,21 @@ export default (state = initialState, action) => {
       }
 
     case REMOVE:
+      let { rId } = action.payload
+      //get index in byId array
+      let index = state.byId.indexOf(rId);
+      if (index === -1) return {...state.byId}
+      //check presence in byHash object
+      if (!state.byHash.hasOwnProperty(rId)) return {...state.byHash}
+      const { [rId]: _, ...without } = state.byHash;
+
       return {
         ...state,
-        byId: state.byId.slice(0, -1),
-        // byHash: delete state.byHash[0],
+        byId: [
+          ...state.byId.slice(0, index),
+          ...state.byId.slice(index + 1)
+        ],
+        byHash: without,
         isRemoving: !state.isRemoving
       }
 
@@ -56,59 +66,34 @@ export default (state = initialState, action) => {
   }
 }
 
-export const add = (title, description) => {
-  return dispatch => {
-    dispatch({
-      type: ADD_REQUESTED,
-    })
+export const add = (title, description) => dispatch => Promise.resolve().then(() => {
 
     dispatch({
+      type: ADD_REQUESTED
+    })
+
+    return dispatch({
       type: ADD,
       payload: {
         id: nextId++,
         title: title,
         description: description
       }
-    })
-  }
-}
+    });
 
-export const addAsync = () => {
-  return dispatch => {
-    dispatch({
-      type: ADD_REQUESTED
-    })
+});
 
-    return setTimeout(() => {
-      dispatch({
-        type: ADD
-      })
-    }, 3000)
-  }
-}
+export const remove = rId => dispatch => Promise.resolve().then(() => {
 
-export const decrement = () => {
-  return dispatch => {
-    dispatch({
-      type: REMOVE_REQUESTED
-    })
+  dispatch({
+    type: REMOVE_REQUESTED
+  })
 
-    dispatch({
-      type: REMOVE
-    })
-  }
-}
+  return dispatch({
+    type: REMOVE,
+    payload: {
+      rId: rId
+    }
+  });
 
-export const decrementAsync = () => {
-  return dispatch => {
-    dispatch({
-      type: REMOVE_REQUESTED
-    })
-
-    return setTimeout(() => {
-      dispatch({
-        type: REMOVE
-      })
-    }, 3000)
-  }
-}
+});
