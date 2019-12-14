@@ -3,7 +3,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 // import rootReducer from './modules'
-import counter from './modules/add'
+import manager from './modules/manager'
 
 export const history = createHistory()
 
@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const rootReducer = combineReducers({
-  counter: counter,
+  manager: manager,
   router: connectRouter(history),
 })
 

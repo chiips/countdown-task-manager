@@ -2,54 +2,49 @@ import React from 'react'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {
-  increment,
-  incrementAsync,
-  decrement,
-  decrementAsync
-} from '../../modules/add'
+// import {
+//   remove,
+//   removeAsync
+// } from '../../modules/manager'
 
 const Home = props => (
   <div>
     <h1>Home</h1>
-    <p>Count: {props.count}</p>
+    <p>Tasks</p>
+    {props.byId && props.byId.length ? 
+      props.byId.map(function(d, idx){
+          return <li key={idx} onClick={()=> props.toTaskPage(d) }>{props.byHash[d].value}</li>
+      })
+      :
+      "No tasks!"}
+  
 
-    <p>
-      <button onClick={props.increment}>Increment</button>
-      <button onClick={props.incrementAsync} disabled={props.isIncrementing}>
-        Increment Async
-      </button>
-    </p>
+        {/* {props.byHash.map((task) => {
+        return <li key={task.id}>{task}</li>;
+        })} */}
 
-    <p>
-      <button onClick={props.decrement}>Decrement</button>
-      <button onClick={props.decrementAsync} disabled={props.isDecrementing}>
-        Decrement Async
-      </button>
-    </p>
 
-    <p>
-      <button onClick={() => props.changePage(3)}>
-        Go to about page via redux
+    {/* <p>
+      <button onClick={props.remove}>Remove</button>
+      <button onClick={props.removeAsync} disabled={props.isRemoving}>
+        Remove Async
       </button>
-    </p>
+    </p> */}
+
   </div>
 )
 
-const mapStateToProps = ({ counter }) => ({
-  count: counter.count,
-  isIncrementing: counter.isIncrementing,
-  isDecrementing: counter.isDecrementing
+const mapStateToProps = ({ manager }) => ({
+  byId: manager.byId,
+  byHash: manager.byHash,
 })
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
-      increment,
-      incrementAsync,
-      decrement,
-      decrementAsync,
-      changePage: (id) => push(`/about/${id}`)
+      // remove,
+      // removeAsync,
+      toTaskPage: (id) => push(`/task/${id}`)
     },
     dispatch
   )
