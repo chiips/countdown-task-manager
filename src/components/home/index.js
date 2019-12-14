@@ -13,7 +13,7 @@ const Home = props => (
     <p>Tasks</p>
     {props.byId && props.byId.length ? 
       props.byId.map(function(d, idx){
-          return <li key={idx} onClick={()=> props.toTaskPage(d) }>{props.byHash[d].value}</li>
+          return <li key={idx} onClick={()=> props.toTaskPage(d) }>{props.byHash[d].title}</li>
       })
       :
       "No tasks!"}

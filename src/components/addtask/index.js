@@ -8,7 +8,8 @@ import {
   // removeAsync
 } from '../../modules/manager'
 
-let input 
+let title
+let description
 
 const AddTask = props => (
   <div>
@@ -16,20 +17,24 @@ const AddTask = props => (
     
     <form onSubmit={e => {
         e.preventDefault()
-        if (!input.value.trim()) {
+        if (!title.value.trim()) {
           return
         }
-        props.add(input.value)
-        input.value = ""
+        if (!description.value.trim()) {
+          return
+        }
+        props.add(title.value, description.value)
+        title.value = ""
+        description.value = ""
       }}>
-        <input ref={node => input = node} />
+        <input ref={node => title = node} placeholder="Title"/>
+        <input ref={node => description = node} placeholder="Description"/>
         <button type="submit">
           Add Task
         </button>
       </form>
 
     <p>
-      <button onClick={props.add}>Add</button>
       <button onClick={props.addAsync} disabled={props.isAdding}>
         Add Async
       </button>

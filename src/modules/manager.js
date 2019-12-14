@@ -22,14 +22,15 @@ export default (state = initialState, action) => {
       }
 
     case ADD:
-      const { id, input } = action.payload;
+      const { id, title, description } = action.payload;
       return {
         ...state,
         byId: [...state.byId, id],
         byHash: {
           ...state.byHash,
           [id]: {
-            value: input,
+            title: title,
+            description: description,
             completed: false
           }
         },
@@ -43,7 +44,6 @@ export default (state = initialState, action) => {
       }
 
     case REMOVE:
-      state.count--
       return {
         ...state,
         byId: state.byId.slice(0, -1),
@@ -56,7 +56,7 @@ export default (state = initialState, action) => {
   }
 }
 
-export const add = input => {
+export const add = (title, description) => {
   return dispatch => {
     dispatch({
       type: ADD_REQUESTED,
@@ -66,7 +66,8 @@ export const add = input => {
       type: ADD,
       payload: {
         id: nextId++,
-        input
+        title: title,
+        description: description
       }
     })
   }

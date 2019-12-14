@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Link, Switch} from 'react-router-dom'
+import './app.scss';
 import Home from '../home'
 import About from '../about'
 import AddTask from '../addtask'
@@ -11,13 +12,8 @@ const App = () => (
     <header>
       <Link to="/">Home</Link>
       <Link to="/about">About</Link>
-      
+      <Link to="/add">Add Task</Link>
     </header>
-    
-    <br></br>
- 
-    <Link to="/add">Add Task</Link>
-
     <main>
     <Switch>
       <Route exact path="/" component={Home} />
