@@ -7,11 +7,25 @@ import {
   } from '../../modules/manager'
 
 const Taskpage = props => (
+
       <div>
-        {<h2 key={props.match.params.id}>{props.byHash && props.byHash[props.match.params.id] ? props.byHash[props.match.params.id].title : ''}</h2>}
-        {<p>{props.byHash && props.byHash[props.match.params.id] ? props.byHash[props.match.params.id].description : ''}</p>}
-        <button onClick={()=> props.remove(props.match.params.id).then(()=>props.toHome())}>Remove</button>
-    
+        {
+        props.byId && props.byId.length ? 
+        props.byId
+        .filter(d => {
+            return d === Number(props.match.params.id)
+        })
+        .map((d, idx) => {
+          return (
+            <div key={idx}>
+                <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
+                <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
+                <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
+            </div>
+          )
+      }) :
+      "This task doesn't exist! How did you get here?"
+    }
     </div>
 )
 
@@ -19,7 +33,7 @@ const mapStateToProps = ({ manager }) => ({
     byId: manager.byId,
     byHash: manager.byHash,
     isAdding: manager.isAdding,
-    isRemoving: manager.isRemoving
+    isRemoving: manager.isRemoving,
   })
 
   const mapDispatchToProps = dispatch =>

@@ -44,11 +44,17 @@ export default (state = initialState, action) => {
 
     case REMOVE:
       let { rId } = action.payload
-      //get index in byId array
+      //check id
       let index = state.byId.indexOf(rId);
-      if (index === -1) return {...state.byId}
-      //check presence in byHash object
-      if (!state.byHash.hasOwnProperty(rId)) return {...state.byHash}
+      if (index === -1 || (!state.byHash.hasOwnProperty(rId))) {
+        
+        return {
+          ...state,
+          byId: [...state.byId],
+          byHash: {...state.byHash},
+          isRemoving: !state.isRemoving
+        }
+      }
       const { [rId]: _, ...without } = state.byHash;
 
       return {
