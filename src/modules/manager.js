@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
       }
 
     case ADD:
-      const { id, title, description } = action.payload;
+      const { id, title, description, due } = action.payload;
       return {
         ...state,
         byId: [...state.byId, id],
@@ -30,6 +30,7 @@ export default (state = initialState, action) => {
           [id]: {
             title: title,
             description: description,
+            due: due,
             completed: false
           }
         },
@@ -72,7 +73,7 @@ export default (state = initialState, action) => {
   }
 }
 
-export const add = (title, description) => dispatch => Promise.resolve().then(() => {
+export const add = (title, description, due) => dispatch => Promise.resolve().then(() => {
 
     dispatch({
       type: ADD_REQUESTED
@@ -83,7 +84,8 @@ export const add = (title, description) => dispatch => Promise.resolve().then(()
       payload: {
         id: nextId++,
         title: title,
-        description: description
+        description: description,
+        due: due
       }
     });
 

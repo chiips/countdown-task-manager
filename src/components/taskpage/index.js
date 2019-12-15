@@ -6,6 +6,7 @@ import {
     remove,
   } from '../../modules/manager'
 
+let now = new Date();
 const Taskpage = props => (
 
       <div>
@@ -20,6 +21,8 @@ const Taskpage = props => (
             <div key={idx}>
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
+                <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toString() : ''}</p>
+                <p>time left: {props.byHash && props.byHash[d] ? (props.byHash[d].due - now.getDate()).toString() : ''}</p>
                 <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
             </div>
           )
