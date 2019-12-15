@@ -11,7 +11,7 @@ class AddTask extends React.Component {
   state = {
     title: "",
     description: "",
-    due: new Date(),
+    due: new Date(Date.now() + (5 * 60 * 1000)) //default 5 minutes from now
   }
  
   onChangeDue = input => this.setState({ due: input })
