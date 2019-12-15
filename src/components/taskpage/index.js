@@ -1,20 +1,61 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
-import {
-    remove,
-  } from '../../modules/manager'
+import { remove } from '../../modules/manager'
 
-let now = new Date();
-const Taskpage = props => (
+function Taskpage(props) {
 
+  let id = Number(props.match.params.id)
+
+  let due = props.byHash && props.byHash[id] ? props.byHash[id].due : new Date();
+
+  const calculateTimeLeft = (due) => {
+    const difference = due - new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(due));
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (!timerComponents.length) return
+      setTimeLeft(calculateTimeLeft(due));
+    }, 1000);
+  });
+
+  const timerComponents = [];
+
+  Object.keys(timeLeft).forEach(interval => {
+    if (!timeLeft[interval]) {
+      return;
+    }
+
+    timerComponents.push(
+      <span key={interval}>
+        {timeLeft[interval]} {interval}{" "}
+      </span>
+    );
+  });
+
+  return (
       <div>
         {
         props.byId && props.byId.length ? 
         props.byId
         .filter(d => {
-            return d === Number(props.match.params.id)
+            return d === id
         })
         .map((d, idx) => {
           return (
@@ -22,15 +63,17 @@ const Taskpage = props => (
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toString() : ''}</p>
-                <p>time left: {props.byHash && props.byHash[d] ? (props.byHash[d].due - now.getDate()).toString() : ''}</p>
                 <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
+                <br></br>
+                {timerComponents.length ? timerComponents : <span>Time's up!</span>}
             </div>
           )
       }) :
       "This task doesn't exist! How did you get here?"
     }
     </div>
-)
+  )
+}
 
 const mapStateToProps = ({ manager }) => ({
     byId: manager.byId,
