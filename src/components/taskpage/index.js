@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
-import { setPassed, remove } from '../../modules/manager'
+import { complete, setPassed, remove } from '../../modules/manager'
 
 function Taskpage(props) {
 
@@ -71,7 +71,9 @@ function Taskpage(props) {
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toLocaleString() : ''}</p>
+                <p>{props.byHash && props.byHash[d] ? props.byHash[d].completed.toString() : ''}</p>
                 <p>{ props.byHash && props.byHash[d] ? props.byHash[d].status : '' }</p>
+                <button onClick={()=> props.complete(d)}>Complete</button>
                 <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
                 <br></br>
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
@@ -94,6 +96,7 @@ const mapStateToProps = ({ manager }) => ({
   const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      complete,
       setPassed,
       remove,
       toHome: () => push(`/`)
