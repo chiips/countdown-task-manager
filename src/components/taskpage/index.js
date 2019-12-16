@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
-import { remove } from '../../modules/manager'
+import { setPassed, remove } from '../../modules/manager'
 
 function Taskpage(props) {
 
@@ -30,7 +30,10 @@ function Taskpage(props) {
 
   useEffect(() => {
     let timer = setTimeout(() => {
-      if (!timerComponents.length) return
+      if (!timerComponents.length) {
+        props.setPassed(id)
+        return
+      }
       setTimeLeft(calculateTimeLeft(due));
     }, 1000);
 
@@ -68,6 +71,7 @@ function Taskpage(props) {
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toLocaleString() : ''}</p>
+                <p>{ props.byHash && props.byHash[d] ? props.byHash[d].status : '' }</p>
                 <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
                 <br></br>
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
@@ -90,6 +94,7 @@ const mapStateToProps = ({ manager }) => ({
   const mapDispatchToProps = dispatch =>
   bindActionCreators(
     {
+      setPassed,
       remove,
       toHome: () => push(`/`)
     },

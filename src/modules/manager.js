@@ -4,6 +4,8 @@ export const REMOVE_REQUESTED = 'manager/REMOVE_REQUESTED'
 export const REMOVE = 'manager/REMOVE'
 export const COMPLETE_REQUESTED = 'manager/COMPLETE_REQUESTED'
 export const COMPLETE = 'manager/COMPLETE'
+export const SET_PASSED_REQUESTED = 'manager/SET_PASSED_REQUESTED'
+export const SET_PASSED = 'manager/SET_PASSED'
 
 let nextId = 1
 
@@ -12,7 +14,8 @@ const initialState = {
   byHash: {},
   isAdding: false,
   isRemoving: false,
-  isCompleting: false
+  isCompleting: false,
+  isSettingPassed: false,
 }
 
 export default (state = initialState, action) => {
@@ -35,7 +38,7 @@ export default (state = initialState, action) => {
             description: description,
             due: due,
             completed: false,
-            status: "on time"
+            status: "active"
           }
         },
         isAdding: !state.isAdding
@@ -94,6 +97,27 @@ export default (state = initialState, action) => {
           isCompleting: !state.isCompleting
         }
 
+    case SET_PASSED_REQUESTED:
+      return {
+        ...state,
+        isSettingPassed: true
+      }
+    
+      case SET_PASSED:
+        let {oId} = action.payload
+
+        return {
+          ...state,
+          byId: [...state.byId],
+          byHash: {
+            ...state.byHash,
+            [oId]: {
+              ...state.byHash[oId],
+              status: "passed"
+            }
+          },
+          isSettingPassed: !state.isSettingPassed
+        }
 
     default:
       return state
@@ -143,6 +167,20 @@ export const complete = cId => dispatch => Promise.resolve().then(() => {
     type: COMPLETE,
     payload: {
       cId: cId
+    }
+  })
+})
+
+export const setPassed = oId => dispatch => Promise.resolve().then(() => {
+  
+  dispatch({
+    type: SET_PASSED_REQUESTED
+  })
+
+  return dispatch({
+    type: SET_PASSED,
+    payload: {
+      oId: oId
     }
   })
 })
