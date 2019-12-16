@@ -33,6 +33,9 @@ class AddTask extends React.Component {
           if (!this.state.description.trim()) {
             return
           }
+          if (!this.state.due) {
+            return
+          }
           this.props.add(this.state.title, this.state.description, this.state.due)
           .then(()=>this.props.toHome())
           this.setState({ title: ""})

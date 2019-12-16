@@ -2,26 +2,24 @@ import React, { useEffect } from 'react'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { complete, setPassed, remove } from '../../modules/manager'
+import { complete, setPassed, remove, setFilter, setSort } from '../../modules/manager'
 import './home.scss'
 
 function Home(props) {
 
   useEffect(() => {
     let timer = setTimeout(() => {
-      if (props.byId && !props.byId.length) {
+      if (!props.tasks || !props.tasks.length) {
         return
       }
       
-      //check if date has passed
-      props.byId.forEach(id => {
-        if (props.byHash && props.byHash[id]) {
-          let difference = props.byHash[id].due - new Date();
-          if (difference<=0) props.setPassed(id)
+      props.tasks.forEach(task => {
+          let difference = task.due - new Date();
+          if (difference<=0) props.setPassed(task.id)
         }
-      });
+      );
 
-    }, 1000);
+      }, 1000);
 
     //clear on unmount
     return () => {
@@ -29,57 +27,96 @@ function Home(props) {
     }
   });
 
-  if (props.byId && !props.byId.length) {
-    return (
-      <div>
-        <h2>Tasks</h2>
-        <p>You have no tasks! Add a task to get started.</p>
-      </div>
-    )
-  }
-
   return (
+
   <div>
     <h2>Tasks</h2>
+
+    <button onClick={()=>{props.setFilter("all")}}>All</button>
+    <button onClick={()=>{props.setFilter("completed")}}>Completed</button>
+    <button onClick={()=>{props.setFilter("active")}}>Active</button>
 
     <table className="table">
       <thead>
           <tr>
-          <th>Title</th>
-          <th>Due Date</th>
-          <th>Completed</th>
-          <th>Status</th>
+          <th onClick={() => props.setSort("title")}>Title</th>
+          <th onClick={() => props.setSort("due")}>Due Date</th>
+          <th onClick={() => props.setSort("completed")}>Completed</th>
+          <th onClick={() => props.setSort("status")}>Status</th>
           </tr>
       </thead>
       <tbody>
-          
-      {
-        props.byId.map(function(d, idx){
-        return (
 
+    { props.tasks && props.tasks.length
+      ? props.tasks
+        .map(function(task, idx){
+        return (
         <tr key={idx}>
-          <td onClick={()=> props.toTaskPage(d) }>{props.byHash[d].title}</td>
-          <td onClick={()=> props.toTaskPage(d) }>{props.byHash[d].due.toLocaleString()}</td>
-          <td onClick={()=> props.toTaskPage(d) }>{props.byHash[d].completed.toString()}</td>
-          <td onClick={()=> props.toTaskPage(d) }>{props.byHash[d].status}</td>
-          <td><button onClick={()=> props.complete(d)}>Complete</button></td>
-          <td><button onClick={()=> props.remove(d)}>Remove</button></td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{task.title}</td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{task.due.toLocaleString()}</td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{task.completed.toString()}</td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{task.status}</td>
+          <td><button onClick={()=> props.complete(task.id)}>Complete</button></td>
+          <td><button onClick={()=> props.remove(task.id)}>Remove</button></td>
         </tr>
             )
         })
+      : <tr><td></td></tr>
       }
 
     </tbody>
     </table>
 
+    {props.tasks && props.tasks.length
+    ? ""
+    : "No tasks!"}
+
   </div>
   )
 }
 
-const mapStateToProps = ({ manager }) => ({
-  byId: manager.byId,
-  byHash: manager.byHash,
-})
+const getFiltered = (tasks, filterKey) => {
+  switch (filterKey) {
+    case 'completed':
+      return tasks.filter(t => t.completed)
+    case 'active':
+      return tasks.filter(t => !t.completed)
+    case 'all':
+    default:
+      return tasks
+  }
+}
+
+const compareBy = key => {
+    return function (a, b) {
+      if (a[key] < b[key]) return -1;
+      if (a[key] > b[key]) return 1;
+      return 0;
+    };
+}
+
+const getSorted = (tasks, sortKey) => {
+  if (tasks == null) {
+    return tasks
+  }
+  return tasks.sort(compareBy(sortKey))
+}
+
+
+const mapStateToProps = state => {
+  const { byId, byHash, filterKey, sortKey } = state.manager || {};
+  const tasks =
+    byId && byId.length
+      ? byId
+        .map(id => (byHash ? { ...byHash[id], id } : null))
+      : null
+
+  let filtered = getFiltered(tasks, filterKey)
+  let sorted = getSorted(filtered, sortKey)
+  return { 
+    tasks: sorted
+   };
+};
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
@@ -87,7 +124,9 @@ const mapDispatchToProps = dispatch =>
       complete,
       setPassed,
       remove,
-      toTaskPage: (id) => push(`/task/${id}`)
+      setFilter,
+      setSort,
+      toTaskPage: (id) => push(`/task/${id}`),
     },
     dispatch
   )

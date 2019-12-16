@@ -6,6 +6,8 @@ export const COMPLETE_REQUESTED = 'manager/COMPLETE_REQUESTED'
 export const COMPLETE = 'manager/COMPLETE'
 export const SET_PASSED_REQUESTED = 'manager/SET_PASSED_REQUESTED'
 export const SET_PASSED = 'manager/SET_PASSED'
+export const SET_FILTER = 'manager/SET_FILTER'
+export const SET_SORT = 'manager/SET_SORT'
 
 let nextId = 1
 
@@ -16,6 +18,8 @@ const initialState = {
   isRemoving: false,
   isCompleting: false,
   isSettingPassed: false,
+  filterKey: "all",
+  sortKey: "id"
 }
 
 export default (state = initialState, action) => {
@@ -103,7 +107,7 @@ export default (state = initialState, action) => {
         isSettingPassed: true
       }
     
-      case SET_PASSED:
+    case SET_PASSED:
         let {oId} = action.payload
 
         return {
@@ -117,6 +121,20 @@ export default (state = initialState, action) => {
             }
           },
           isSettingPassed: !state.isSettingPassed
+        }
+
+    case SET_FILTER:
+      let {filterKey} = action.payload
+      return {
+        ...state,
+        filterKey: filterKey
+      }
+
+    case SET_SORT:
+        let {sortKey} = action.payload
+        return {
+          ...state,
+          sortKey: sortKey
         }
 
     default:
@@ -184,3 +202,25 @@ export const setPassed = oId => dispatch => Promise.resolve().then(() => {
     }
   })
 })
+
+export const setFilter = filterKey => dispatch => Promise.resolve().then(() => {
+
+  return dispatch({
+    type: SET_FILTER,
+    payload: {
+      filterKey: filterKey
+    }
+  });
+
+});
+
+export const setSort = sortKey => dispatch => Promise.resolve().then(() => {
+
+  return dispatch({
+    type: SET_SORT,
+    payload: {
+      sortKey: sortKey
+    }
+  });
+
+});

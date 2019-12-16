@@ -80,7 +80,7 @@ function Taskpage(props) {
             </div>
           )
       }) :
-      "This task doesn't exist! How did you get here?"
+      props.toHome()
     }
     </div>
   )
