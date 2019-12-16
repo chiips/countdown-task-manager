@@ -29,10 +29,15 @@ function Taskpage(props) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(due));
 
   useEffect(() => {
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       if (!timerComponents.length) return
       setTimeLeft(calculateTimeLeft(due));
     }, 1000);
+
+    //clear on unmount
+    return () => {
+      clearTimeout(timer)
+    }
   });
 
   const timerComponents = [];
@@ -62,7 +67,7 @@ function Taskpage(props) {
             <div key={idx}>
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
-                <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toString() : ''}</p>
+                <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toLocaleString() : ''}</p>
                 <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
                 <br></br>
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
