@@ -1,3 +1,8 @@
+.taskpage {
+    margin:auto;
+    width:65%
+}
+
 .head {
     align-items: left;
 }
@@ -14,7 +19,6 @@
 }
 
 .back {
-    // background-color: #11176e;
     color: #11176e;
     font-size: smaller;
     margin-bottom: 0rem;
@@ -26,8 +30,9 @@
     border-style:solid;
     border-width: 1px;
     padding:1rem;
-    margin:1rem;
+    margin:auto;
     text-align: left;
+    width: 90%;
 }
 
 .count {

@@ -97,10 +97,10 @@ function Taskpage(props) {
                 </div>
             </div>
           )
-      }) :
-      props.toHome()
-    }
-    </div>
+        }) :
+        props.toHome()
+      }
+      </div>
     </div>
   )
 }
