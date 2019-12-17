@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
@@ -6,7 +7,7 @@ import { complete, setPassed, remove } from '../../modules/manager'
 
 function Taskpage(props) {
 
-  let id = Number(props.match.params.id)
+  let id = props.match.params.id
 
   //wrap due in new Date() to reformat after JSON serializing into local storage
   let due = props.byHash && props.byHash[id] ? new Date(props.byHash[id].due) : new Date();
@@ -60,6 +61,9 @@ function Taskpage(props) {
 
   return (
       <div>
+
+        <Link to="/">Back</Link>
+
         {
         props.byId && props.byId.length ? 
         props.byId
@@ -74,8 +78,14 @@ function Taskpage(props) {
                 <p>{props.byHash && props.byHash[d] ? new Date(props.byHash[d].due).toLocaleString() : ''}</p>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].completed.toString() : ''}</p>
                 <p>{ props.byHash && props.byHash[d] ? props.byHash[d].status : '' }</p>
-                <button onClick={()=> props.complete(d)}>Complete</button>
-                <button onClick={()=> props.remove(d).then(()=>props.toHome())}>Remove</button>
+
+                {
+                  props.byHash && props.byHash[d] && props.byHash[d].completed
+                  ? <button>Completed</button>
+                  : <button className="complete" onClick={()=> props.complete(d)}>Complete</button>
+                }
+
+                <button className="remove" onClick={()=> props.remove(d).then(()=>props.toHome())} >Remove</button>
                 <br></br>
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
             </div>

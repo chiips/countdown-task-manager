@@ -1,9 +1,53 @@
-li {
-    margin: 1rem;
-    padding: 1 rem;
-    
+table {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    width: 100%;
+    empty-cells: show;
+}
+
+th {
+    padding:1rem;
     &:hover {
         cursor: pointer;
-        opacity: 0.7
     }
+}
+
+tbody tr:nth-child(odd){
+    background-color: rgb(240, 237, 205);
+  }
+
+tr.task {
+    opacity: 0.8;
+    &:hover {
+        cursor: pointer;
+        opacity: 1
+    }
+}
+
+td {
+    padding: 1rem;
+}
+
+.head {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+// .link {
+//     align-items: center;
+//     justify-content: center;
+// }
+
+.filters{
+
+    button {
+
+        opacity: 0.7;
+
+    }
+
+    button.selected{
+        opacity: 1;
+     }
+
 }

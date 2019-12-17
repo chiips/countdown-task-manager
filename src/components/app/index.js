@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Link, Switch} from 'react-router-dom'
+import { Route, Switch} from 'react-router-dom'
 import './app.scss';
 import Home from '../home'
 import About from '../about'
@@ -8,14 +8,12 @@ import TaskPage from '../taskpage'
 import NotFound from '../notfound'
 
 const App = () => (
-  <div>
+  <div className="App">
     <header>
-      <Link to="/">Home</Link>
-      <Link to="/add">Add Task</Link>
-      <Link to="/about">About</Link>
+      <h2>Task Manager</h2>
     </header>
     
-    <main>
+    <main className="content">
     <Switch>
       <Route exact path="/" component={Home} />
       <Route exact path="/about" component={About} />

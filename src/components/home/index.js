@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -31,18 +32,22 @@ function Home(props) {
   return (
 
   <div>
-    <h2>Tasks</h2>
+    <div className="head">
+    <Link to="/add" className="link">ADD</Link>
 
-    <button onClick={()=>{props.setFilter("all")}}>All</button>
-    <button onClick={()=>{props.setFilter("completed")}}>Completed</button>
-    <button onClick={()=>{props.setFilter("active")}}>Active</button>
+    <div className="filters">
+    <button onClick={()=>{props.setFilter("all")}} disabled={!props.tasks} className={props.filter === "all" ? 'selected' : null}>All</button>
+    <button onClick={()=>{props.setFilter("complete")}} disabled={!props.tasks} className={props.filter === "complete" ? 'selected' : null}>Complete</button>
+    <button onClick={()=>{props.setFilter("incomplete")}} disabled={!props.tasks} className={props.filter === "incomplete" ? 'selected' : null}>Incomplete</button>
+    </div>
 
+    </div>
     <table className="table">
       <thead>
           <tr>
           <th onClick={() => props.setSort("title")}>Title</th>
           <th onClick={() => props.setSort("due")}>Due Date</th>
-          <th onClick={() => props.setSort("completed")}>Completed</th>
+          <th onClick={() => props.setSort("complete")}>Completed</th>
           <th onClick={() => props.setSort("status")}>Status</th>
           </tr>
       </thead>
@@ -50,19 +55,31 @@ function Home(props) {
 
     { props.tasks && props.tasks.length
       ? props.tasks
-        .map(function(task, idx){
+        .map(function(task){
         return (
-        <tr key={task.id}>
+        <tr key={task.id} className="task">
           <td onClick={()=> props.toTaskPage(task.id) }>{task.title}</td>
           <td onClick={()=> props.toTaskPage(task.id) }>{new Date(task.due).toLocaleString()}</td>
-          <td onClick={()=> props.toTaskPage(task.id) }>{task.completed.toString()}</td>
-          <td onClick={()=> props.toTaskPage(task.id) }>{task.status}</td>
-          <td><button onClick={()=> props.complete(task.id)}>Complete</button></td>
-          <td><button onClick={()=> props.remove(task.id)}>Remove</button></td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{task.completed ? "Yes" : "No" }</td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{task.status.toUpperCase()}</td>
+          {
+            task.completed
+            ? <td><button className="completed">Completed</button></td>
+            : <td><button className="complete" onClick={()=> props.complete(task.id)}>Complete</button></td>
+          }
+
+          <td><button className="remove" onClick={()=> props.remove(task.id)}>Remove</button></td>
         </tr>
             )
         })
-      : <tr><td></td></tr>
+      : <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
       }
 
     </tbody>
@@ -78,9 +95,9 @@ function Home(props) {
 
 const getFiltered = (tasks, filterKey) => {
   switch (filterKey) {
-    case 'completed':
+    case 'complete':
       return tasks.filter(t => t.completed)
-    case 'active':
+    case 'incomplete':
       return tasks.filter(t => !t.completed)
     case 'all':
     default:
@@ -119,10 +136,12 @@ const mapStateToProps = state => {
         .map(id => (byHash ? { ...byHash[id], id } : null))
       : null
 
+  if (tasks == null) return {tasks: tasks}
   let filtered = getFiltered(tasks, filterKey)
   let sorted = getSorted(filtered, sortKey, ascSortOrder)
   return { 
-    tasks: sorted
+    tasks: sorted,
+    filter: filterKey
     //order: ascSortOrder //for knowing which arrow to display
    };
 };
