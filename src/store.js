@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import { createBrowserHistory } from 'history'
 import manager from './modules/manager'
 import { loadState, saveState } from './localStorage'
+import throttle from 'lodash/throttle'
 
 export const history = createBrowserHistory()
 
@@ -38,10 +39,10 @@ const store = createStore(
   composedEnhancers
 )
 
-store.subscribe(() => {
+store.subscribe(throttle(() => {
   saveState({
     manager: store.getState().manager
   });
-});
+}, 1000));
 
 export default store

@@ -1,3 +1,5 @@
+import { v4 } from 'node-uuid'
+
 export const ADD_REQUESTED = 'manager/ADD_REQUESTED'
 export const ADD = 'manager/ADD'
 export const REMOVE_REQUESTED = 'manager/REMOVE_REQUESTED'
@@ -8,8 +10,6 @@ export const SET_PASSED_REQUESTED = 'manager/SET_PASSED_REQUESTED'
 export const SET_PASSED = 'manager/SET_PASSED'
 export const SET_FILTER = 'manager/SET_FILTER'
 export const SET_SORT = 'manager/SET_SORT'
-
-let nextId = 1
 
 const initialState = {
   byId: [],
@@ -162,7 +162,7 @@ export const add = (title, description, due) => dispatch => Promise.resolve().th
     return dispatch({
       type: ADD,
       payload: {
-        id: nextId++,
+        id: v4(),
         title: title,
         description: description,
         due: due

@@ -52,7 +52,7 @@ function Home(props) {
       ? props.tasks
         .map(function(task, idx){
         return (
-        <tr key={idx}>
+        <tr key={task.id}>
           <td onClick={()=> props.toTaskPage(task.id) }>{task.title}</td>
           <td onClick={()=> props.toTaskPage(task.id) }>{new Date(task.due).toLocaleString()}</td>
           <td onClick={()=> props.toTaskPage(task.id) }>{task.completed.toString()}</td>
