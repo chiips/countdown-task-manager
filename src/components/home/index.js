@@ -33,7 +33,7 @@ function Home(props) {
 
   <div className="container">
     <div className="head">
-    <Link to="/add" className="toAdd"><i className="fa fa-plus" aria-hidden="true"></i> Add</Link>
+    <Link to="/add" className="toAddPage"><i className="fa fa-plus" aria-hidden="true"></i> Add</Link>
 
     <div className="filters">
     <button onClick={()=>{props.setFilter("all")}} disabled={!props.tasks} className={props.filter === "all" ? 'selected' : null}>All</button>
