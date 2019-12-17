@@ -19,7 +19,8 @@ const initialState = {
   isCompleting: false,
   isSettingPassed: false,
   filterKey: "all",
-  sortKey: "id"
+  sortKey: "id",
+  ascSortOrder: true
 }
 
 export default (state = initialState, action) => {
@@ -132,9 +133,19 @@ export default (state = initialState, action) => {
 
     case SET_SORT:
         let {sortKey} = action.payload
+        let order
+        //if same as current sort key then toggle order
+        if (state.sortKey === sortKey) {
+          order = !state.ascSortOrder
+        } else {
+          //otherwise reset to asc order
+          order = true
+        }
+
         return {
           ...state,
-          sortKey: sortKey
+          sortKey: sortKey,
+          ascSortOrder: order
         }
 
     default:

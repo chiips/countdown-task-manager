@@ -87,7 +87,14 @@ const getFiltered = (tasks, filterKey) => {
   }
 }
 
-const compareBy = key => {
+const compareBy = (key, order) => {
+    if (order === false) {
+      return function (a, b) {
+        if (a[key] < b[key]) return 1;
+        if (a[key] > b[key]) return -1;
+        return 0;
+      };
+    }
     return function (a, b) {
       if (a[key] < b[key]) return -1;
       if (a[key] > b[key]) return 1;
@@ -95,16 +102,16 @@ const compareBy = key => {
     };
 }
 
-const getSorted = (tasks, sortKey) => {
+const getSorted = (tasks, sortKey, ascSortOrder) => {
   if (tasks == null) {
     return tasks
   }
-  return tasks.sort(compareBy(sortKey))
+  return tasks.sort(compareBy(sortKey, ascSortOrder))
 }
 
 
 const mapStateToProps = state => {
-  const { byId, byHash, filterKey, sortKey } = state.manager || {};
+  const { byId, byHash, filterKey, sortKey, ascSortOrder } = state.manager || {};
   const tasks =
     byId && byId.length
       ? byId
@@ -112,9 +119,10 @@ const mapStateToProps = state => {
       : null
 
   let filtered = getFiltered(tasks, filterKey)
-  let sorted = getSorted(filtered, sortKey)
+  let sorted = getSorted(filtered, sortKey, ascSortOrder)
   return { 
     tasks: sorted
+    //order: ascSortOrder //for knowing which arrow to display
    };
 };
 
