@@ -33,7 +33,7 @@ function Home(props) {
 
   <div>
     <div className="head">
-    <Link to="/add" className="toAdd">Add</Link>
+    <Link to="/add" className="toAdd"><i className="fa fa-plus" aria-hidden="true"></i> Add</Link>
 
     <div className="filters">
     <button onClick={()=>{props.setFilter("all")}} disabled={!props.tasks} className={props.filter === "all" ? 'selected' : null}>All</button>
@@ -45,10 +45,10 @@ function Home(props) {
     <table className="table">
       <thead>
           <tr>
-          <th onClick={() => props.setSort("title")}>Title</th>
-          <th onClick={() => props.setSort("due")}>Due Date</th>
-          <th onClick={() => props.setSort("complete")}>Completed</th>
-          <th onClick={() => props.setSort("status")}>Status</th>
+          <th onClick={() => props.setSort("title")}>Title <i className="fa fa-sort" aria-hidden="true"></i></th>
+          <th onClick={() => props.setSort("due")}>Due Date <i className="fa fa-sort" aria-hidden="true"></i></th>
+          <th onClick={() => props.setSort("completed")}>Completed <i className="fa fa-sort" aria-hidden="true"></i></th>
+          <th onClick={() => props.setSort("status")}>Status <i className="fa fa-sort" aria-hidden="true"></i></th>
           </tr>
       </thead>
       <tbody>
@@ -64,11 +64,11 @@ function Home(props) {
           <td onClick={()=> props.toTaskPage(task.id) }>{task.status.toUpperCase()}</td>
           {
             task.completed
-            ? <td><button className="completed">Completed</button></td>
-            : <td><button className="complete" onClick={()=> props.complete(task.id)}>Complete</button></td>
+            ? <td><button className="completed"><i className="fa fa-check-circle-o" aria-hidden="true"></i> Completed</button></td>
+            : <td><button className="complete" onClick={()=> props.complete(task.id)}><i className="fa fa-check" aria-hidden="true"></i> Complete</button></td>
           }
 
-          <td><button className="remove" onClick={()=> props.remove(task.id)}>Remove</button></td>
+          <td><button className="remove" onClick={()=> props.remove(task.id)}><i className="fa fa-times" aria-hidden="true"></i> Remove</button></td>
         </tr>
             )
         })

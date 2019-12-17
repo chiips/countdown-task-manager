@@ -5,6 +5,7 @@ import { ConnectedRouter } from 'connected-react-router'
 import store, { history } from './store'
 import App from './components/app'
 import './index.scss';
+import '../node_modules/font-awesome/css/font-awesome.min.css'; 
 import * as serviceWorker from './serviceWorker';
 
 

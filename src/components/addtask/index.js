@@ -23,7 +23,7 @@ class AddTask extends React.Component {
       <div className="addTask">
 
         <div className="head">
-        <Link to="/" className="back">Back</Link>
+        <Link to="/" className="back"><i className="fa fa-arrow-left"></i> Back</Link>
         </div>
 
 
@@ -44,12 +44,12 @@ class AddTask extends React.Component {
           this.setState({ description: ""})
           this.setState({ due: new Date()})
         }}>
-          <label for="title">Title</label>
+          <label htmlFor="title">Title</label>
           <input id="title" onChange={this.onChangeTitle}/>
-          <label for="description">Description</label>
+          <label htmlFor="description">Description</label>
           <textarea id="description" onChange={this.onChangeDescription}></textarea>
 
-          <label for="picker">Due Date</label>
+          <label htmlFor="picker">Due Date</label>
           <DateTimePicker
           id="picker"
           className="picker"

@@ -64,7 +64,7 @@ function Taskpage(props) {
       <div className="taskpage">
 
         <div className="head">
-        <Link to="/" className="back">Back</Link>
+        <Link to="/" className="back"><i className="fa fa-arrow-left"></i> Back</Link>
         </div>
 
         <div className="card">
@@ -85,13 +85,13 @@ function Taskpage(props) {
 
                 {
                   props.byHash && props.byHash[d] && props.byHash[d].completed
-                  ? <button className="completed">Completed</button>
-                  : <button className="complete" onClick={()=> props.complete(d)}>Complete</button>
+                  ? <button className="completed"><i className="fa fa-check-circle-o" aria-hidden="true"></i> Completed</button>
+                  : <button className="complete" onClick={()=> props.complete(d)}><i className="fa fa-check" aria-hidden="true"></i> Complete</button>
                 }
 
-                <button className="remove" onClick={()=> props.remove(d).then(()=>props.toHome())} >Remove</button>
+                <button className="remove" onClick={()=> props.remove(d).then(()=>props.toHome())} ><i className="fa fa-times" aria-hidden="true"></i> Remove</button>
                 <br></br>
-                <div class="count">
+                <div className="count">
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
                 </div>
             </div>
