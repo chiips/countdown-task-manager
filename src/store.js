@@ -3,10 +3,11 @@ import { connectRouter, routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
 import { createBrowserHistory } from 'history'
 import manager from './modules/manager'
+import { loadState, saveState } from './localStorage'
 
 export const history = createBrowserHistory()
 
-const initialState = {}
+const persistedState = loadState();
 const enhancers = []
 const middleware = [
   thunk,
@@ -33,8 +34,14 @@ const composedEnhancers = compose(
 
 const store = createStore(
   connectRouter(history)(rootReducer),
-  initialState,
+  persistedState,
   composedEnhancers
 )
+
+store.subscribe(() => {
+  saveState({
+    manager: store.getState().manager
+  });
+});
 
 export default store

@@ -14,7 +14,8 @@ function Home(props) {
       }
       
       props.tasks.forEach(task => {
-          let difference = task.due - new Date();
+          //wrap due in new Date() to reformat after JSON serializing into local storage
+          let difference = new Date(task.due) - new Date();
           if (difference<=0) props.setPassed(task.id)
         }
       );
@@ -53,7 +54,7 @@ function Home(props) {
         return (
         <tr key={idx}>
           <td onClick={()=> props.toTaskPage(task.id) }>{task.title}</td>
-          <td onClick={()=> props.toTaskPage(task.id) }>{task.due.toLocaleString()}</td>
+          <td onClick={()=> props.toTaskPage(task.id) }>{new Date(task.due).toLocaleString()}</td>
           <td onClick={()=> props.toTaskPage(task.id) }>{task.completed.toString()}</td>
           <td onClick={()=> props.toTaskPage(task.id) }>{task.status}</td>
           <td><button onClick={()=> props.complete(task.id)}>Complete</button></td>

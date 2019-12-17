@@ -8,7 +8,8 @@ function Taskpage(props) {
 
   let id = Number(props.match.params.id)
 
-  let due = props.byHash && props.byHash[id] ? props.byHash[id].due : new Date();
+  //wrap due in new Date() to reformat after JSON serializing into local storage
+  let due = props.byHash && props.byHash[id] ? new Date(props.byHash[id].due) : new Date();
 
   const calculateTimeLeft = (due) => {
     const difference = due - new Date();
@@ -70,7 +71,7 @@ function Taskpage(props) {
             <div key={idx}>
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
-                <p>{props.byHash && props.byHash[d] ? props.byHash[d].due.toLocaleString() : ''}</p>
+                <p>{props.byHash && props.byHash[d] ? new Date(props.byHash[d].due).toLocaleString() : ''}</p>
                 <p>{props.byHash && props.byHash[d] ? props.byHash[d].completed.toString() : ''}</p>
                 <p>{ props.byHash && props.byHash[d] ? props.byHash[d].status : '' }</p>
                 <button onClick={()=> props.complete(d)}>Complete</button>
