@@ -89,6 +89,9 @@ export default (state = initialState, action) => {
     case COMPLETE:
         let { cId } = action.payload
 
+        let cStatus = "overdue";
+        if (state.byHash[cId].status === "active") cStatus="on-time"
+
         return {
           ...state,
           byId: [...state.byId],
@@ -96,7 +99,8 @@ export default (state = initialState, action) => {
             ...state.byHash,
             [cId]: {
               ...state.byHash[cId],
-              completed: true
+              completed: true,
+              status: cStatus
             }
           },
           isCompleting: !state.isCompleting
@@ -111,6 +115,12 @@ export default (state = initialState, action) => {
     case SET_PASSED:
         let {oId} = action.payload
 
+        if (state.byHash[oId].status === "on-time") return {...state}
+
+        let pStatus = "overdue"
+
+        console.log("hit", state.byHash[oId].title)
+
         return {
           ...state,
           byId: [...state.byId],
@@ -118,7 +128,7 @@ export default (state = initialState, action) => {
             ...state.byHash,
             [oId]: {
               ...state.byHash[oId],
-              status: "passed"
+              status: pStatus
             }
           },
           isSettingPassed: !state.isSettingPassed

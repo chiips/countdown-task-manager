@@ -18,12 +18,6 @@ th {
     }
 }
 
-// th::after {
-//     content: "";
-//     clear: both;
-//     display: table;
-//   }
-
 tbody tr:nth-child(odd){
     background-color: rgba(206, 233, 255, 0.562);
   }

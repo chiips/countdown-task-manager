@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { ConnectedRouter } from 'connected-react-router'
-import store, { history } from './store'
+import store, { history } from './store/store'
 import App from './components/app'
 import './index.scss';
 import '../node_modules/font-awesome/css/font-awesome.min.css'; 

@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import thunk from 'redux-thunk'
 import { createBrowserHistory } from 'history'
-import manager from './modules/manager'
+import manager from '../modules/manager'
 import { loadState, saveState } from './localStorage'
 import throttle from 'lodash/throttle'
 

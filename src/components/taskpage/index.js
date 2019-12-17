@@ -91,6 +91,7 @@ function Taskpage(props) {
 
                 <button className="remove" onClick={()=> props.remove(d).then(()=>props.toHome())} ><i className="fa fa-times" aria-hidden="true"></i> Remove</button>
                 <br></br>
+                <div>Time Left:</div>
                 <div className="count">
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
                 </div>

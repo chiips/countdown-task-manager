@@ -31,7 +31,7 @@ function Home(props) {
 
   return (
 
-  <div class="container">
+  <div className="container">
     <div className="head">
     <Link to="/add" className="toAdd"><i className="fa fa-plus" aria-hidden="true"></i> Add</Link>
 
