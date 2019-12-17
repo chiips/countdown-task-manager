@@ -1,15 +1,28 @@
+.container {
+    width:80%;
+}
+
 table {
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    table-layout: fixed;
     width: 100%;
     empty-cells: show;
+    border-collapse: collapse; 
 }
 
 th {
     padding:1rem;
+    overflow: auto;
     &:hover {
         cursor: pointer;
     }
 }
+
+// th::after {
+//     content: "";
+//     clear: both;
+//     display: table;
+//   }
 
 tbody tr:nth-child(odd){
     background-color: rgba(206, 233, 255, 0.562);
@@ -17,6 +30,7 @@ tbody tr:nth-child(odd){
 
 tr.task {
     opacity: 0.8;
+    overflow: auto;
     &:hover {
         cursor: pointer;
         opacity: 1
@@ -24,8 +38,14 @@ tr.task {
 }
 
 td {
-    padding: 1rem;
+    padding: 0.25rem;
+    min-width:8rem;
+    overflow: auto;
 }
+
+td:empty::after{
+    content: "\00a0";
+  }
 
 button {
     margin: 1rem;
