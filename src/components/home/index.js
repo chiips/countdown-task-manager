@@ -33,7 +33,7 @@ function Home(props) {
 
   <div>
     <div className="head">
-    <Link to="/add" className="link">ADD</Link>
+    <Link to="/add" className="toAdd">Add</Link>
 
     <div className="filters">
     <button onClick={()=>{props.setFilter("all")}} disabled={!props.tasks} className={props.filter === "all" ? 'selected' : null}>All</button>
@@ -84,10 +84,6 @@ function Home(props) {
 
     </tbody>
     </table>
-
-    {props.tasks && props.tasks.length
-    ? ""
-    : "No tasks!"}
 
   </div>
   )

@@ -7,16 +7,25 @@
     height: 100%;
 
     header {
-        background-color: #31553b;
         margin-bottom: 1rem;
-        padding: 0.25rem;
-        color: white;
-        a {
-            color: white;
-            margin: 1rem;
-        }
+        color: #11176e;
     }
 
+}
+
+a {
+    border-radius: 0.25rem;
+    border-style:solid;
+    border-width: 1px;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    text-decoration: none;
+    color:white;
+}
+
+button {
+    margin:1rem;
+    padding:0.5rem;
 }
 
 .content {
@@ -26,52 +35,3 @@
     justify-content: center;
   }
 
-// a {
-//     color:#31553b;
-//     text-decoration: none;
-//     &:hover{
-//         text-decoration: underline;
-//     }
-// }
-
-a {
-    text-decoration: none; font: menu;
-    display: inline-block; padding: 2px 8px;
-    background: #31553b;; color: white;
-    border-style: solid; border-width: 2px;
-    border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
-}
-a:active {
-    border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;
-}
-
-button {
-    margin: 1rem;
-    padding: 1 rem;
-    background-color: #31553b;
-    color: white;
-    
-    &:hover {
-        cursor: pointer;
-        opacity: 1;
-        box-shadow: 0.1rem 0.1rem grey;
-    }
-}
-
-button.complete{
-    background-color: rgb(228, 123, 26);
-    color: black;
-}
-
-button.completed{
-    &:hover {
-        opacity: 1;
-        box-shadow: none;
-    }
-}
-
-
-button.remove{
-    background-color: rgb(143, 16, 16);
-    color: white;
-}

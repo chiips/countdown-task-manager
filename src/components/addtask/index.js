@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import {
-  add,
-} from '../../modules/manager'
+import {add} from '../../modules/manager'
 import DateTimePicker from 'react-datetime-picker';
+import './addtask.scss'
 
 class AddTask extends React.Component {
   state = {
@@ -21,14 +20,13 @@ class AddTask extends React.Component {
  
   render() {
     return (
-      <div>
+      <div className="addTask">
 
-        <Link to="/">Back</Link>
+        <div className="head">
+        <Link to="/" className="back">Back</Link>
+        </div>
 
-        <DateTimePicker
-          onChange={this.onChangeDue}
-          value={this.state.due}
-        />
+
         <form onSubmit={e => {
         e.preventDefault()
           if (!this.state.title.trim()) {
@@ -46,11 +44,21 @@ class AddTask extends React.Component {
           this.setState({ description: ""})
           this.setState({ due: new Date()})
         }}>
-          <input onChange={this.onChangeTitle} placeholder="Title"/>
-          <textarea onChange={this.onChangeDescription} placeholder="Description"></textarea>
+          <label for="title">Title</label>
+          <input id="title" onChange={this.onChangeTitle}/>
+          <label for="description">Description</label>
+          <textarea id="description" onChange={this.onChangeDescription}></textarea>
 
-          <button type="submit" disabled={this.props.isAdding}>
-            Add Task
+          <label for="picker">Due Date</label>
+          <DateTimePicker
+          id="picker"
+          className="picker"
+          onChange={this.onChangeDue}
+          value={this.state.due}
+        />
+
+          <button type="submit" disabled={this.props.isAdding} className="add">
+            ADD TASK
           </button>
         </form>
 

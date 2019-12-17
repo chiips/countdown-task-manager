@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { push } from 'connected-react-router'
 import { bindActionCreators } from 'redux'
 import { complete, setPassed, remove } from '../../modules/manager'
+import './taskpage.scss'
 
 function Taskpage(props) {
 
@@ -60,10 +61,13 @@ function Taskpage(props) {
   });
 
   return (
-      <div>
+      <div className="taskpage">
 
-        <Link to="/">Back</Link>
+        <div className="head">
+        <Link to="/" className="back">Back</Link>
+        </div>
 
+        <div className="card">
         {
         props.byId && props.byId.length ? 
         props.byId
@@ -74,25 +78,28 @@ function Taskpage(props) {
           return (
             <div key={idx}>
                 <h2>{props.byHash && props.byHash[d] ? props.byHash[d].title : ''}</h2>
-                <p>{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
-                <p>{props.byHash && props.byHash[d] ? new Date(props.byHash[d].due).toLocaleString() : ''}</p>
-                <p>{props.byHash && props.byHash[d] ? props.byHash[d].completed.toString() : ''}</p>
-                <p>{ props.byHash && props.byHash[d] ? props.byHash[d].status : '' }</p>
+                <p className="description">{props.byHash && props.byHash[d] ? props.byHash[d].description : ''}</p>
+                <p>Due: {props.byHash && props.byHash[d] ? new Date(props.byHash[d].due).toLocaleString() : ''}</p>
+                <p>Completed: {props.byHash && props.byHash[d] && props.byHash[d].completed? "Yes" : "No"}</p>
+                <p>Status: { props.byHash && props.byHash[d] ? props.byHash[d].status.toUpperCase() : '' }</p>
 
                 {
                   props.byHash && props.byHash[d] && props.byHash[d].completed
-                  ? <button>Completed</button>
+                  ? <button className="completed">Completed</button>
                   : <button className="complete" onClick={()=> props.complete(d)}>Complete</button>
                 }
 
                 <button className="remove" onClick={()=> props.remove(d).then(()=>props.toHome())} >Remove</button>
                 <br></br>
+                <div class="count">
                 {timerComponents.length ? timerComponents : <span>Time's up!</span>}
+                </div>
             </div>
           )
       }) :
       props.toHome()
     }
+    </div>
     </div>
   )
 }

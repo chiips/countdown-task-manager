@@ -9,7 +9,7 @@ import NotFound from '../notfound'
 const App = () => (
   <div className="App">
     <header>
-      <h2>Task Manager</h2>
+      <h2>TASK MANAGER</h2>
     </header>
     
     <main className="content">

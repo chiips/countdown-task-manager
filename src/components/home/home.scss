@@ -12,7 +12,7 @@ th {
 }
 
 tbody tr:nth-child(odd){
-    background-color: rgb(240, 237, 205);
+    background-color: rgba(206, 233, 255, 0.562);
   }
 
 tr.task {
@@ -27,21 +27,61 @@ td {
     padding: 1rem;
 }
 
+.toAdd {
+
+    background-color: rgb(228, 123, 26);
+
+}
+
+button {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #11176e;
+    color: white;
+    border-radius: 0.25rem;
+    border-style:solid;
+    border-width: 1px;
+    
+    &:hover {
+        cursor: pointer;
+        opacity: 1;
+        box-shadow: 0.1rem 0.1rem grey;
+    }
+}
+
+button.complete{
+    background-color: rgb(228, 123, 26);
+    color: white;
+}
+
+button.completed{
+    color:white;
+    &:hover {
+        opacity: 1;
+        box-shadow: none;
+    }
+}
+
+
+button.remove{
+    background-color: rgb(143, 16, 16);
+    color: white;
+}
+
+
 .head {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    align-items: center;
 }
-
-// .link {
-//     align-items: center;
-//     justify-content: center;
-// }
 
 .filters{
 
-    button {
 
+
+    button {
+        color:white;
         opacity: 0.7;
 
     }
@@ -51,3 +91,4 @@ td {
      }
 
 }
+
