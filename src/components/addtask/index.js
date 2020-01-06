@@ -32,9 +32,6 @@ class AddTask extends React.Component {
           if (!this.state.title.trim()) {
             return
           }
-          if (!this.state.description.trim()) {
-            return
-          }
           if (!this.state.due) {
             return
           }
@@ -45,9 +42,9 @@ class AddTask extends React.Component {
           this.setState({ due: new Date()})
         }}>
           <label htmlFor="title">Title</label>
-          <input id="title" onChange={this.onChangeTitle}/>
+          <input id="title" onChange={this.onChangeTitle} placeholder="Required"/>
           <label htmlFor="description">Description</label>
-          <textarea id="description" onChange={this.onChangeDescription}></textarea>
+          <textarea id="description" onChange={this.onChangeDescription} placeholder="Optional"></textarea>
 
           <label htmlFor="picker">Due Date</label>
           <DateTimePicker
